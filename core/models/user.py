@@ -16,11 +16,15 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
-    def create_superuser(self, rut, name, lastname, email, role, profession, birthday, birth_month, birth_year, password=None):
-        user = self.create_user(rut, name, lastname, email, role,
-                                profession, birthday, birth_month, birth_year, password)
+    def create_superuser(self, rut, name, lastname, email, role, birth_date, profession=None, password=None):
+        if not rut:
+            raise ValueError('The user most have a rut.')
+        email = self.normalize_email(email)
+        user = self.model(rut=rut, email=email, name=name, profession=profession,
+                          lastname=lastname, role=role, birth_date=birth_date)
         user.is_superuser = True
         user.is_staff = True
+        user.set_password(password)
         user.save(using=self.db)
         return user
 
@@ -33,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     role = models.IntegerField()
     birth_date = models.DateField()
-    profession = models.CharField(max_length=50,null=True)
+    profession = models.CharField(max_length=50, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
