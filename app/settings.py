@@ -124,6 +124,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Auth model
+
+AUTH_USER_MODEL = 'core.User'
+
 # Cors configuration
 
 CORS_ALLOWED_ORIGINS = [
