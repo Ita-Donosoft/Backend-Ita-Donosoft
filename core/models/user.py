@@ -33,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     role = models.IntegerField()
     birth_date = models.DateField()
-    profession = models.CharField(null=True)
+    profession = models.CharField(max_length=50,null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
