@@ -4,12 +4,12 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, rut, name, lastname, email, role, profession, birthday, birth_month, birth_year, password=None):
+    def create_user(self, rut, name, lastname, email, role, profession, birth_day, birth_month, birth_year, password=None):
         if not rut:
             raise ValueError('The user most have a rut.')
 
         email = self.normalize_email(email)
-        birth_date = datetime.date(birth_year, birth_month, birthday)
+        birth_date = datetime.date(birth_year, birth_month, birth_day)
         user = self.model(rut=rut, email=email, name=name, profession=profession,
                           lastname=lastname, role=role, birth_date=birth_date)
         user.set_password(password)
