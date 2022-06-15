@@ -14,7 +14,7 @@ class Login(ObtainAuthToken):
             data=request.data, context={'request': request})
 
         if not login_serializer.is_valid():
-            return Response({'erros': login_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'errors': login_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         user = login_serializer.validated_data['user']
 
