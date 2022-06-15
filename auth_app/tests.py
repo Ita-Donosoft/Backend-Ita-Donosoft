@@ -4,7 +4,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 
-from core.models import User, user
+from core.models import User
 
 
 class LoginTests(TestCase):
