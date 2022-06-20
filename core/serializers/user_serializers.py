@@ -15,13 +15,11 @@ class CreateUserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     rut = serializers.CharField(max_length=12, validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(max_length=255, write_only=True)
-    email = serializers.EmailField(max_length=255)
+    email = serializers.EmailField(max_length=255, validators=[UniqueValidator(queryset=User.objects.all())])
     name = serializers.CharField(max_length=50)
     lastname = serializers.CharField(max_length=50)
     profession = serializers.CharField(max_length=50, allow_blank=True, allow_null=True)
-    birth_day = serializers.IntegerField()
-    birth_month = serializers.IntegerField()
-    birth_year = serializers.IntegerField()
+    birth_date = serializers.DateField()
     role = serializers.IntegerField()
     
     def create(self, validated_data):
