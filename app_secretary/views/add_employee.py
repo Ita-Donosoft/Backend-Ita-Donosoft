@@ -16,8 +16,9 @@ class AddEmployee(APIView):
                 This class adds the data and information of the request.
 
         Returns:
-            Response: If the data is not correct it returns an error. 
-            In the contrary case it returns the data of the employee.
+            Response: 
+                If the data is not correct it returns an error. 
+                In the contrary case it returns the data of the employee.
         """
         new_employee = self.serializer_class(data=request.data)
         if not new_employee.is_valid():
