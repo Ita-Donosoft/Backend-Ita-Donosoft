@@ -131,6 +131,17 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'core.User'
 
+# Token authentication of RestFramework config
+
+REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+   ),
+   'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser'
+   ),
+}
+
 # Cors configuration
 
 CORS_ALLOWED_ORIGINS = [
