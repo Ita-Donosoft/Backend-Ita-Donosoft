@@ -10,6 +10,18 @@ class Login(ObtainAuthToken):
     user_serializer_class = user_serializers.UserSerializer
 
     def post(self, request):
+        """this endpoint if for the user's login
+
+        Args:
+            request (class 'rest_framework.request.Request'): 
+                This class adds the data and information of the request.
+
+        Returns:
+            Response: 
+                If the credentials not match it returns an error. 
+                If the user is not available in the system it returns an error.
+                In the case the credentials match it returns the data and the token of the user.
+        """
         login_serializer = self.serializer_class(
             data=request.data, context={'request': request})
 
