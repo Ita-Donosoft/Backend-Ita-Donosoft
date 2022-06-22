@@ -38,7 +38,7 @@ class MakeRequest(ObtainAuthToken):
         serialized_user = self.user_serializer_class(request.user)
 
         if serialized_user.data['role'] != 1:
-            return Response({'error': 'Forbidden'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'error': 'The user most be a employee'}, status=status.HTTP_403_FORBIDDEN)
 
         request_data = self.request_data_serializer_class(data=request.data)
 
