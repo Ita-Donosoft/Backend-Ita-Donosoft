@@ -55,7 +55,9 @@ class MakeRequest(ObtainAuthToken):
         ]
 
         if serialized_user_request_data != request_data_verify:
-            return Response({'error': 'The data of request is not the same of the user.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                'error': 'The data of request is not the same of the user.'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         new_request_data = {
             'type': request_data.data['type'],
