@@ -20,7 +20,7 @@ class MakeRequestTests(TestCase):
         )
         user.set_password(data['password'])
         user.save()
-    
+
     def login(self, rut, email, password):
         client = APIClient()
         client.post('/api/auth/login', {
@@ -30,7 +30,7 @@ class MakeRequestTests(TestCase):
         user_model = User.objects.get(rut=rut)
         token = Token.objects.get(user=user_model)
         return token.key
-    
+
     def setUp(self):
         self.create_user({
             'rut': '111111111',
@@ -54,7 +54,6 @@ class MakeRequestTests(TestCase):
             'password': 'secretary_password'
         })
 
-
     def test_make_request_unauth(self):
         client = APIClient()
         response = client.post('/api/employee/makerequest', {
@@ -69,10 +68,11 @@ class MakeRequestTests(TestCase):
         self.assertEqual(json.loads(response.content), {
             'detail': 'Authentication credentials were not provided.'
         })
-    
+
     def tests_make_request_wrong_role(self):
         client = APIClient()
-        token = self.login('222222222', 'secretary@domain.com', 'secretary_password')
+        token = self.login(
+            '222222222', 'secretary@domain.com', 'secretary_password')
         client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {}, format='json')
 
@@ -82,7 +82,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_no_data(self):
         client = APIClient()
-        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        token = self.login(
+            '111111111', 'employee@domain.com', 'employee_password')
         client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {}, format='json')
 
@@ -108,7 +109,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_wrong_rut(self):
         client = APIClient()
-        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        token = self.login(
+            '111111111', 'employee@domain.com', 'employee_password')
         client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
@@ -125,7 +127,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_wrong_name(self):
         client = APIClient()
-        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        token = self.login(
+            '111111111', 'employee@domain.com', 'employee_password')
         client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
@@ -142,7 +145,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_wrong_lastname(self):
         client = APIClient()
-        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        token = self.login(
+            '111111111', 'employee@domain.com', 'employee_password')
         client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
@@ -159,7 +163,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request(self):
         client = APIClient()
-        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        token = self.login(
+            '111111111', 'employee@domain.com', 'employee_password')
         client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
