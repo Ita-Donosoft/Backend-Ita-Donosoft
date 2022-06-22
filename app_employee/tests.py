@@ -43,6 +43,17 @@ class MakeRequestTests(TestCase):
             'password': 'employee_password'
         })
 
+        self.create_user({
+            'rut': '222222222',
+            'email': 'secretary@domain.com',
+            'name': 'secretary_name',
+            'lastname': 'secretary_lastname',
+            'profession': '',
+            'role': 2,
+            'birth_date': datetime.date(1999, 4, 3),
+            'password': 'secretary_password'
+        })
+
 
     def test_make_request_unauth(self):
         client = APIClient()
@@ -57,6 +68,16 @@ class MakeRequestTests(TestCase):
 
         self.assertEqual(json.loads(response.content), {
             'detail': 'Authentication credentials were not provided.'
+        })
+    
+    def tests_make_request_wrong_role(self):
+        client = APIClient()
+        token = self.login('222222222', 'secretary@domain.com', 'secretary_password')
+        client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
+        response = client.post('/api/employee/makerequest', {}, format='json')
+
+        self.assertEqual(json.loads(response.content), {
+            'error': 'The user most be a employee'
         })
 
     def test_make_request_no_data(self):
