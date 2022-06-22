@@ -19,8 +19,10 @@ class MakeRequest(ObtainAuthToken):
         """
         This endpoint is for make a request only the user can make a request.
         The validation are:
-        1. The user most be logged
-        2. The data from the request is most be the same as the user logged 
+        1. The user most be logged.
+        2. All fields of the serializer are required.
+        3. The user most be a employee.
+        4. The data from the request is most be the same as the user logged. 
 
         Args:
             request (class 'rest_framework.request.Request'):
@@ -29,8 +31,9 @@ class MakeRequest(ObtainAuthToken):
         Returns:
             Response:
                 1. If the user is logged and the data is correct returns a success message with the response code 201.
-                2. If the user is not logged, returns a error message with the response code 403.
-                3. If the user is logged but the data is not correct returns a error message with the response code 400.
+                2. If the user is not logged, returns a error message with the response code 401.
+                3. If the rol of the user is not a employee reutrns a error message with the response code 403.
+                4. If the user is logged but the data is not correct returns a error message with the response code 400.
         """
         serialized_user = self.user_serializer_class(request.user)
 
@@ -42,19 +45,7 @@ class MakeRequest(ObtainAuthToken):
         if not request_data.is_valid():
             return Response({'errors': request_data.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-        serialized_user_request_data = [
-            serialized_user.data['rut'],
-            serialized_user.data['name'],
-            serialized_user.data['lastname']
-        ]
-
-        request_data_verify = [
-            request_data.data['rut'],
-            request_data.data['name'],
-            request_data.data['lastname']
-        ]
-
-        if serialized_user_request_data != request_data_verify:
+        if not self.verify_request_user_data(request_data.data, serialized_user.data):
             return Response({
                 'error': 'The data of request is not the same of the user.'
             }, status=status.HTTP_400_BAD_REQUEST)
@@ -73,3 +64,28 @@ class MakeRequest(ObtainAuthToken):
         new_request.save()
 
         return Response({'msg': 'the request was created successfully'}, status=status.HTTP_201_CREATED)
+
+    def verify_request_user_data(self, request_data, user_data):
+        """
+        This function is for verify the data of the request is the same at the user is logged.
+
+        Args:
+            request_data (dict): Is the data of the request.
+            user_data (dict): Is the data of the user logged
+
+        Returns:
+            bool: Returns True if the data is the same or Flase if the data is not the same.
+        """
+        request_verify_data = [
+            request_data['rut'],
+            request_data['name'],
+            request_data['lastname']
+        ]
+
+        user_verify_data = [
+            user_data['rut'],
+            user_data['name'],
+            user_data['lastname']
+        ]
+
+        return request_verify_data == user_verify_data
