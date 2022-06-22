@@ -8,21 +8,31 @@ from core.models import User
 
 
 class MakeRequestTests(TestCase):
-    def setUp(self):
-        birth_date = datetime.date(1990, 4, 3)
-        user_1 = User.objects.create(
-            rut='111111111',
-            email='employee@domain.com',
-            name='employee_name',
-            lastname='employee_lastname',
-            profession='employee_profession',
-            role=1,
-            birth_date=birth_date
+    def create_user(self, data):
+        user = User.objects.create(
+            rut=data['rut'],
+            email=data['email'],
+            name=data['name'],
+            lastname=data['lastname'],
+            profession=data['profession'],
+            role=data['role'],
+            birth_date=data['birth_date']
         )
-        password = 'employee_password'
-        user_1.set_password(password)
-        user_1.save()
-
+        user.set_password(data['password'])
+        user.save()
+    
+    def setUp(self):
+        self.create_user({
+            'rut': '111111111',
+            'email': 'employee@domain.com',
+            'name': 'employee_name',
+            'lastname': 'employee_lastname',
+            'profession': 'employee_profession',
+            'role': 1,
+            'birth_date': datetime.date(1990, 4, 3),
+            'password': 'employee_password'
+        })
+    
     def login(self):
         client = APIClient()
         client.post('/api/auth/login', {
