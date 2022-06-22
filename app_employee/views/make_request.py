@@ -45,33 +45,22 @@ class MakeRequest(ObtainAuthToken):
         if not request_data.is_valid():
             return Response({'errors': request_data.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not self.verify_request_user_data(request_data.data, serialized_user.data):
+        if not self.__verify_request_user_data(request_data.data, serialized_user.data):
             return Response({
                 'error': 'The data of request is not the same of the user.'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        new_request_data = {
-            'type': request_data.data['type'],
-            'reason': request_data.data['reason'],
-            'employee': serialized_user.data['id']
-        }
-
-        new_request = self.create_request_serializer_class(data=new_request_data)
-
-        if not new_request.is_valid():
-            return Response({'errors': new_request.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-        new_request.save()
+        self.__create_new_request(request_data.data, serialized_user.data)
 
         return Response({'msg': 'the request was created successfully'}, status=status.HTTP_201_CREATED)
 
-    def verify_request_user_data(self, request_data, user_data):
+    def __verify_request_user_data(self, request_data, user_data):
         """
         This function is for verify the data of the request is the same at the user is logged.
 
         Args:
             request_data (dict): Is the data of the request.
-            user_data (dict): Is the data of the user logged
+            user_data (dict): Is the data of the logged user.
 
         Returns:
             bool: Returns True if the data is the same or Flase if the data is not the same.
@@ -89,3 +78,24 @@ class MakeRequest(ObtainAuthToken):
         ]
 
         return request_verify_data == user_verify_data
+
+    def __create_new_request(self, request_data, user_data):
+        """
+        This function create a new request with the validated data of the request and logged user.
+
+        Args:
+            request_data (dict): Is the data of the request.
+            user_data (dict): Is the data of the logged user.
+        """
+        new_request_data = {
+            'type': request_data['type'],
+            'reason': request_data['reason'],
+            'employee': user_data['id']
+        }
+
+        new_request = self.create_request_serializer_class(
+            data=new_request_data
+        )
+
+        new_request.is_valid()
+        new_request.save()
