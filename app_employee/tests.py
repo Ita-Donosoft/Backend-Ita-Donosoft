@@ -21,6 +21,16 @@ class MakeRequestTests(TestCase):
         user.set_password(data['password'])
         user.save()
     
+    def login(self, rut, email, password):
+        client = APIClient()
+        client.post('/api/auth/login', {
+            'username': email,
+            'password': password,
+        }, format='json')
+        user_model = User.objects.get(rut=rut)
+        token = Token.objects.get(user=user_model)
+        return token.key
+    
     def setUp(self):
         self.create_user({
             'rut': '111111111',
@@ -32,16 +42,7 @@ class MakeRequestTests(TestCase):
             'birth_date': datetime.date(1990, 4, 3),
             'password': 'employee_password'
         })
-    
-    def login(self):
-        client = APIClient()
-        client.post('/api/auth/login', {
-            'username': 'employee@domain.com',
-            'password': 'employee_password',
-        }, format='json')
-        user_model = User.objects.get(rut='111111111')
-        token = Token.objects.get(user=user_model)
-        return token.key
+
 
     def test_make_request_unauth(self):
         client = APIClient()
@@ -60,7 +61,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_no_data(self):
         client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION=f'Token {self.login()}')
+        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {}, format='json')
 
         self.assertEqual(json.loads(response.content), {
@@ -85,7 +87,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_wrong_rut(self):
         client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION=f'Token {self.login()}')
+        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
             'reason': 'my reason',
@@ -101,7 +104,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_wrong_name(self):
         client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION=f'Token {self.login()}')
+        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
             'reason': 'my reason',
@@ -117,7 +121,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request_wrong_lastname(self):
         client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION=f'Token {self.login()}')
+        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
             'reason': 'my reason',
@@ -133,7 +138,8 @@ class MakeRequestTests(TestCase):
 
     def test_make_request(self):
         client = APIClient()
-        client.credentials(HTTP_AUTHORIZATION=f'Token {self.login()}')
+        token = self.login('111111111', 'employee@domain.com', 'employee_password')
+        client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
         response = client.post('/api/employee/makerequest', {
             'type': 1,
             'reason': 'my reason',
