@@ -23,6 +23,16 @@ class MakeRequestTests(TestCase):
         user_1.set_password(password)
         user_1.save()
 
+    def login(self):
+        client = APIClient()
+        client.post('/api/auth/login', {
+            'username': 'employee@domain.com',
+            'password': 'employee_password',
+        }, format='json')
+        user_model = User.objects.get(rut='111111111')
+        token = Token.objects.get(user=user_model)
+        return token.key
+
     def test_make_request_unauth(self):
         client = APIClient()
         response = client.post('/api/employee/makerequest', {
@@ -37,16 +47,6 @@ class MakeRequestTests(TestCase):
         self.assertEqual(json.loads(response.content), {
             'detail': 'Authentication credentials were not provided.'
         })
-
-    def login(self):
-        client = APIClient()
-        client.post('/api/auth/login', {
-            'username': 'employee@domain.com',
-            'password': 'employee_password',
-        }, format='json')
-        user_model = User.objects.get(rut='111111111')
-        token = Token.objects.get(user=user_model)
-        return token.key
 
     def test_make_request_no_data(self):
         client = APIClient()
