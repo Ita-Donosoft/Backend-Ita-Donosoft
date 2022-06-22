@@ -86,7 +86,7 @@ class MakeRequestTests(TestCase):
         }, format='json')
 
         self.assertEqual(json.loads(response.content), {
-            'error': 'The rut of request is not the same of the user.'
+            'error': 'The data of request is not the same of the user.'
         })
 
     def test_make_request_wrong_name(self):
@@ -102,7 +102,7 @@ class MakeRequestTests(TestCase):
         }, format='json')
 
         self.assertEqual(json.loads(response.content), {
-            'error': 'The name of request is not the same of the user.'
+            'error': 'The data of request is not the same of the user.'
         })
 
     def test_make_request_wrong_lastname(self):
@@ -118,7 +118,7 @@ class MakeRequestTests(TestCase):
         }, format='json')
 
         self.assertEqual(json.loads(response.content), {
-            'error': 'The lastname of request is not the same of the user.'
+            'error': 'The data of request is not the same of the user.'
         })
 
     def test_make_request(self):
