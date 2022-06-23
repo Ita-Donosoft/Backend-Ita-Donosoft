@@ -54,7 +54,7 @@ class LoginTests(TestCase):
             'password': 'user_2_password',
         }, format='json')
 
-        self.assertEqual(json.loads(response.content), {'errors': {
-            'non_field_errors': ['Unable to log in with provided credentials.']
-        }
-        })
+        self.assertEqual(json.loads(response.content), {
+            'errors': {
+                'non_field_errors': ['Unable to log in with provided credentials.']
+            }})
