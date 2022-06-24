@@ -13,6 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.IntegerField()
     birth_date = models.DateField()
     profession = models.CharField(max_length=50, null=True)
+    in_service = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
