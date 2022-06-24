@@ -42,6 +42,7 @@ class LoginTests(TestCase):
                     'lastname': 'user_lastname',
                     'role': 1,
                     'profession': 'user_1_profession',
+                    'in_service':0,
                     'birth_date': '1990-04-03'
                 }
             }
