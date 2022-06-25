@@ -10,3 +10,7 @@ class Request(models.Model):
         on_delete=models.CASCADE,
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        super(Request, self).save(*args, **kwargs)
