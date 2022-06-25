@@ -1,0 +1,2 @@
+from .list_requests_test import ListRequestsTest
+from .formalize_request_test import FormalizeRequestTest
