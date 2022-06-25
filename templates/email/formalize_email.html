@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  </head>
+  <body>
+      <div>
+        <img 
+          src="https://i.ibb.co/LrQzzDW/Dream-Factory.png"
+          alt="Dream work logo"
+        >
+        <h1>Hola {{name}} {{lastname}}, tu solicitud ha sido aceptada!</h1>
+        <p>
+          La solicitud realizada el {{request_date|date:'Y-m-d'}} por 
+          {% if type == 0 %} 
+            contrato 
+          {% elif type == 1%}
+            renuncia al trabajo actual 
+          {% elif type == 2 %} 
+            renuncia a laplataforma 
+          {% endif %} 
+          ha sido aceptada en la fecha {{response_date|date:'Y-m-d'}}.
+        </p>
+      </div>
+  </body>
+  
+</html>
