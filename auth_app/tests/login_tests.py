@@ -17,7 +17,19 @@ class LoginTests(DefaultTestClass):
             'lastname': 'user_lastname',
             'profession': 'user_1_profession',
             'role': 1,
-            'birth_date': datetime.date(1990, 4, 3)
+            'birth_date': datetime.date(1990, 4, 3),
+            'password': 'user_1_password',
+        })
+
+        self.create_user({
+            'rut': '333333333',
+            'email': 'user_3@domain.com',
+            'name': 'user_name_3',
+            'lastname': 'user_lastname_3',
+            'profession': 'user_3_profession',
+            'role': 1,
+            'birth_date': datetime.date(1990, 4, 3),
+            'password': 'user_3_password',
         })
 
     def test_login_successfully(self):
@@ -50,6 +62,21 @@ class LoginTests(DefaultTestClass):
         response = client.post('/api/auth/login', {
             'username': 'user_2@domain.com',
             'password': 'user_2_password',
+        }, format='json')
+
+        self.assertEqual(json.loads(response.content), {
+            'errors': {
+                'non_field_errors': ['Unable to log in with provided credentials.']
+            }})
+
+    def test_login_unavailable_user(self):
+        client = APIClient()
+        user = User.objects.get(id=2)
+        user.is_active = False
+        user.save()
+        response = client.post('/api/auth/login', {
+            'username': 'user_3@domain.com',
+            'password': 'user_3_password',
         }, format='json')
 
         self.assertEqual(json.loads(response.content), {
