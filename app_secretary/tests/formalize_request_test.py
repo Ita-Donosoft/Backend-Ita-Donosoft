@@ -1,8 +1,6 @@
 import datetime
 import json
-from django.test import TestCase
 from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
 
 from core.models import (
     User,
@@ -11,43 +9,12 @@ from core.models import (
 
 from core.serializers import request_serializer
 
+from helpers import DefaultTestClass
 
-class FormalizeRequestTest(TestCase):
+
+class FormalizeRequestTest(DefaultTestClass):
     endpoint_url = '/api/secretary/formalizerequest'
     serializer_class = request_serializer.RequestSerializer
-
-    def create_user(self, data):
-        user = User.objects.create(
-            rut=data['rut'],
-            email=data['email'],
-            name=data['name'],
-            lastname=data['lastname'],
-            profession=data['profession'],
-            role=data['role'],
-            birth_date=data['birth_date']
-        )
-        user.set_password(data['password'])
-        user.save()
-
-        return user
-
-    def create_request(self, data):
-        request = Request.objects.create(
-            type=data['type'],
-            reason=data['reason'],
-            employee=data['employee'],
-        )
-        request.save()
-
-    def login(self, rut, email, password):
-        client = APIClient()
-        client.post('/api/auth/login', {
-            'username': email,
-            'password': password,
-        }, format='json')
-        user_model = User.objects.get(rut=rut)
-        token = Token.objects.get(user=user_model)
-        return token.key
 
     def setUp(self):
         user_1 = self.create_user({
@@ -165,7 +132,6 @@ class FormalizeRequestTest(TestCase):
             'error': 'The user most be a secretary'
         })
 
-        
     def test_formalize_request_wrong_id(self):
         client = APIClient()
         token = self.login(
@@ -191,7 +157,7 @@ class FormalizeRequestTest(TestCase):
         request = Request.objects.get(id=1)
 
         self.assertEqual(request.is_active, False)
-        
+
         employee = User.objects.get(id=1)
 
         self.assertEqual(employee.in_service, True)
