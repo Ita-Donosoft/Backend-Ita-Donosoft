@@ -1,53 +1,16 @@
 import datetime
 import json
-from django.test import TestCase
 from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
 
-from core.models import (
-    User,
-    Request
-)
-
+from core.models import Request
 from core.serializers import request_serializer
 
+from helpers import DefaultTestClass
 
-class ListRequestsTest(TestCase):
+
+class ListRequestsTest(DefaultTestClass):
     endpoint_url = '/api/secretary/requests'
     serializer_class = request_serializer.RequestSerializer
-
-    def create_user(self, data):
-        user = User.objects.create(
-            rut=data['rut'],
-            email=data['email'],
-            name=data['name'],
-            lastname=data['lastname'],
-            profession=data['profession'],
-            role=data['role'],
-            birth_date=data['birth_date']
-        )
-        user.set_password(data['password'])
-        user.save()
-
-        return user
-
-    def create_request(self, data):
-        request = Request.objects.create(
-            type=data['type'],
-            reason=data['reason'],
-            employee=data['employee'],
-        )
-        request.save()
-
-    def login(self, rut, email, password):
-        client = APIClient()
-        client.post('/api/auth/login', {
-            'username': email,
-            'password': password,
-        }, format='json')
-        user_model = User.objects.get(rut=rut)
-        token = Token.objects.get(user=user_model)
-        return token.key
 
     def setUp(self):
         user_1 = self.create_user({
