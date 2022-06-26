@@ -13,17 +13,19 @@ class Login(ObtainAuthToken):
         """this endpoint if for the user's login
 
         Args:
-            request (class 'rest_framework.request.Request'): 
+            request (class 'rest_framework.request.Request'):
                 This class adds the data and information of the request.
 
         Returns:
-            Response: 
-                If the credentials not match it returns an error. 
+            Response:
+                If the credentials not match it returns an error.
                 If the user is not available in the system it returns an error.
                 In the case the credentials match it returns the data and the token of the user.
         """
         login_serializer = self.serializer_class(
-            data=request.data, context={'request': request})
+            data=request.data,
+            context={'request': request}
+        )
 
         if not login_serializer.is_valid():
             return Response({'errors': login_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -41,6 +43,8 @@ class Login(ObtainAuthToken):
             token = Token.objects.create(user=user)
 
         return Response({
-            'data': {'token': token.key,
-                     'user': user_serializer.data}
+            'data': {
+                'token': token.key,
+                'user': user_serializer.data
+            }
         }, status=status.HTTP_200_OK)
