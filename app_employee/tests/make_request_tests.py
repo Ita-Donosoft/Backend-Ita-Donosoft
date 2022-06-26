@@ -1,36 +1,11 @@
 import datetime
 import json
-from django.test import TestCase
 from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
 
-from core.models import User
+from helpers import DefaultTestClass
 
 
-class MakeRequestTests(TestCase):
-    def create_user(self, data):
-        user = User.objects.create(
-            rut=data['rut'],
-            email=data['email'],
-            name=data['name'],
-            lastname=data['lastname'],
-            profession=data['profession'],
-            role=data['role'],
-            birth_date=data['birth_date']
-        )
-        user.set_password(data['password'])
-        user.save()
-
-    def login(self, rut, email, password):
-        client = APIClient()
-        client.post('/api/auth/login', {
-            'username': email,
-            'password': password,
-        }, format='json')
-        user_model = User.objects.get(rut=rut)
-        token = Token.objects.get(user=user_model)
-        return token.key
-
+class MakeRequestTests(DefaultTestClass):
     def setUp(self):
         self.create_user({
             'rut': '111111111',
