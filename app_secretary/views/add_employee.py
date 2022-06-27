@@ -38,11 +38,8 @@ class AddEmployee(ObtainAuthToken):
             }, status=status.HTTP_400_BAD_REQUEST
             )
 
-        rut_only_number = new_employee.validated_data['rut'][:-1].isnumeric()
-
-        rut_check_digit = new_employee.validated_data['rut'][-1] == 'k' or new_employee.validated_data['rut'][-1].isnumeric()
-
-        if not rut_only_number or (rut_only_number and not rut_check_digit):
+        
+        if(self.__verify_rut(new_employee.validated_data['rut'])):
             return Response({
                 'error': 'The rut format is wrong. Use the rut without symbols. If the check digit is K, use it in lower case'
             }, status=status.HTTP_400_BAD_REQUEST
@@ -54,3 +51,20 @@ class AddEmployee(ObtainAuthToken):
         }, status=status.HTTP_201_CREATED
         )
 
+    
+    def __verify_rut(self, rut):
+        """This function verify the format of the RUT.
+
+        Args:
+            rut (str): This is the RUT of the new employee.
+
+        Returns:
+            bool: 
+            If the RUT is correct it returns True.
+            In the contrary case it returns False.
+        """
+        rut_only_number = rut[:-1].isnumeric()
+        rut_check_digit = rut[-1] == 'k' or rut[-1].isnumeric()
+
+        return not rut_only_number or (rut_only_number and not rut_check_digit)
+        
