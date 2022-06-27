@@ -11,6 +11,19 @@ class ListEmployees (ObtainAuthToken):
     serializer_class = user_serializers.CreateUserSerializer
 
     def get(self, request):
+        """this endpoint is to get the list of all the active employees 
+
+        Args:
+            request (class 'rest_framework.request.Request'): 
+                This class adds the data and information of the request.
+
+        Returns:
+            Response:
+            If the user is not logged it returns a 401 error.
+            If the user is not logged as a secretary it returns a 403 error.
+            If the data is correct it returns an answer will the list of the active employees.
+        """
+
         serialized_user = self.serializer_class(request.user)
         if serialized_user.data['role'] != 2:  # secretary
             return Response({
