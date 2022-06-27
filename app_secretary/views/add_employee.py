@@ -39,7 +39,9 @@ class AddEmployee(ObtainAuthToken):
             )
 
         rut_only_number = new_employee.validated_data['rut'][:-1].isnumeric()
+
         rut_check_digit = new_employee.validated_data['rut'][-1] == 'k' or new_employee.validated_data['rut'][-1].isnumeric()
+
         if not rut_only_number or (rut_only_number and not rut_check_digit):
             return Response({
                 'error': 'The rut format is wrong. Use the rut without symbols. If the check digit is K, use it in lower case'
