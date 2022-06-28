@@ -8,13 +8,13 @@ from core.models import User
 
 class ListEmployees (ObtainAuthToken):
     permission_classes = (IsAuthenticated,)
-    serializer_class = user_serializers.CreateUserSerializer
+    serializer_class = user_serializers.UserSerializer
 
     def get(self, request):
-        """this endpoint is to get the list of all the active employees 
+        """this endpoint is to get the list of all the active employees
 
         Args:
-            request (class 'rest_framework.request.Request'): 
+            request (class 'rest_framework.request.Request'):
                 This class adds the data and information of the request.
 
         Returns:
@@ -35,5 +35,5 @@ class ListEmployees (ObtainAuthToken):
         serialized_users = self.serializer_class(users, many=True)
         return Response({
             'data': serialized_users.data
-        }, status=status.HTTP_200_OK   
+        }, status=status.HTTP_200_OK
         )
