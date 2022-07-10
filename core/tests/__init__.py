@@ -1,0 +1,2 @@
+from .user_manager_test import UserManagerTest
+from .user_serializer_test import UserSerializerTests

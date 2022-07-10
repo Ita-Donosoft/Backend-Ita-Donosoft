@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'rut', 'email', 'name',
-                  'lastname', 'role', 'profession', 'birth_date']
+                  'lastname', 'role', 'profession', 'in_service', 'birth_date']
 
 
 class CreateUserSerializer(serializers.Serializer):
@@ -27,3 +27,9 @@ class CreateUserSerializer(serializers.Serializer):
 
     class Meta:
         model = User
+
+class UserRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['rut', 'email', 'name',
+                  'lastname', 'profession', 'birth_date']

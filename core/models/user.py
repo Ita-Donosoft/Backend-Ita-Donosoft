@@ -1,31 +1,7 @@
-import datetime
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
-
-class UserManager(BaseUserManager):
-    def create_user(self, rut, name, lastname, email, role, profession, birth_date, password=None):
-        if not rut:
-            raise ValueError('The user most have a rut.')
-
-        email = self.normalize_email(email)
-        user = self.model(rut=rut, email=email, name=name, profession=profession,
-                          lastname=lastname, role=role, birth_date=birth_date)
-        user.set_password(password)
-        user.save(using=self.db)
-        return user
-
-    def create_superuser(self, rut, name, lastname, email, role, birth_date, profession=None, password=None):
-        if not rut:
-            raise ValueError('The user most have a rut.')
-        email = self.normalize_email(email)
-        user = self.model(rut=rut, email=email, name=name, profession=profession,
-                          lastname=lastname, role=role, birth_date=birth_date)
-        user.is_superuser = True
-        user.is_staff = True
-        user.set_password(password)
-        user.save(using=self.db)
-        return user
+from core.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -37,6 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.IntegerField()
     birth_date = models.DateField()
     profession = models.CharField(max_length=50, null=True)
+    in_service = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
