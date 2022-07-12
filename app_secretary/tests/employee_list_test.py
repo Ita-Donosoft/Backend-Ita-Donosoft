@@ -2,7 +2,6 @@ import datetime
 import json
 from rest_framework.test import APIClient
 
-from core.models import User
 from core.serializers import user_serializers
 
 from helpers import DefaultTestClass
