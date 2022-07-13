@@ -1,5 +1,3 @@
-import datetime
-
 from core.models import User
 
 from helpers import DefaultTestClass
