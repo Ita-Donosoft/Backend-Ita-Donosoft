@@ -32,9 +32,6 @@ class Login(ObtainAuthToken):
 
         user = login_serializer.validated_data['user']
 
-        if not user.is_active:
-            return Response({'error': 'The user is not enable to login'}, status=status.HTTP_401_UNAUTHORIZED)
-
         token, created = Token.objects.get_or_create(user=user)
         user_serializer = self.user_serializer_class(user)
 

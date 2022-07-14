@@ -6,4 +6,6 @@ urlpatterns = [
     path('requests', views.ListRequests.as_view()),
     path('formalizerequest/<id>', views.FormalizeRequest.as_view()),
     path('users', views.ListEmployees.as_view()),
+    path('employee/report/<id>', views.EmployeeReport.as_view()),
+
 ]
