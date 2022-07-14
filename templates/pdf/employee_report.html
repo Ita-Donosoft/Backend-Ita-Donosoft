@@ -1,86 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
+  <head>
     <title>{{name}} Report</title>
-</head>
+  </head>
 
-<body>
-    <h1>
-        Reporte de {{name}} {{lastname}}
-    </h1>
+  <body>
+    <h1>Reporte de {{name}} {{lastname}}</h1>
     <table>
-        <tr>
-            <th>
-                Campo
-            </th>
-            <th>
-                Datos del empleado
-            </th>
-        </tr>
-        <tr>
-            <td>Nombre completo:</td>
-            <td>{{name}} {{lastname}}</td>
-        </tr>
-        <tr>
-            <td>Correo electrónico:</td>
-            <td>{{email}}</td>
-        </tr>
-        <tr>
-            <td>Fecha de nacimiento:</td>
-            <td>{{birth_date}}</td>
-        </tr>
-        <tr>
-            <td>Profesión:</td>
-            <td>{{profession}}</td>
-        </tr>
-        <tr>
-            <td>¿Presta servicios:?</td>
-            <td>{% if in_service == 0 %} No {% elif in_service == 1 %} Sí {% endif %}</td>
-        </tr>
+      <tr>
+        <th>Campo</th>
+        <th>Datos del empleado</th>
+      </tr>
+      <tr>
+        <td>Nombre completo:</td>
+        <td>{{name}} {{lastname}}</td>
+      </tr>
+      <tr>
+        <td>Correo electrónico:</td>
+        <td>{{email}}</td>
+      </tr>
+      <tr>
+        <td>Fecha de nacimiento:</td>
+        <td>{{birth_date}}</td>
+      </tr>
+      <tr>
+        <td>Profesión:</td>
+        <td>{{profession}}</td>
+      </tr>
+      <tr>
+        <td>¿Presta servicios:?</td>
+        <td>
+          {% if in_service == 0 %} No {% elif in_service == 1 %} Sí {% endif %}
+        </td>
+      </tr>
     </table>
     <div>
-        <img src="https://i.ibb.co/LrQzzDW/Dream-Factory.png" alt="Dream work logo">
+      <img
+        src="https://i.ibb.co/LrQzzDW/Dream-Factory.png"
+        alt="Dream work logo"
+      />
     </div>
-
-</body>
-<style>
+  </body>
+  <style>
     html {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        font-size: 18px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+      font-size: 18px;
     }
 
     h1 {
-        padding-top: 50px;
-        text-align: center;
-        font-size: 25px;
+      padding-top: 50px;
+      text-align: center;
+      font-size: 25px;
     }
 
     table {
-        padding-top: 25px;
+      padding-top: 25px;
     }
 
     td {
-        padding: 14px 0px;
+      padding: 14px 0px;
     }
 
     tbody td {
-        text-align: center;
+      text-align: center;
     }
 
     th,
     td {
-        border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
     }
 
     div {
-        padding-top: 25px;
-        text-align: center;
+      padding-top: 25px;
+      text-align: center;
     }
 
     img {
-        width: 50%;
+      width: 50%;
     }
-</style>
-
+  </style>
 </html>

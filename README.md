@@ -6,10 +6,11 @@ This project is an employee management API for DreamFactory company.
 
 - Login endpoint
 - Add employee endpoint
-- Create resignation request (platform and current employment) endpoint
-- Formalize request endpoint
+- Create resignation request (of platform or current employment) endpoint
+- Formalize request (new contract or a redignations request) endpoint
 - List requests endpoint
-- List employees endpoin
+- List employees endpoint
+- Generate a employee report endpoint
 
 ## Technologies
 
@@ -39,4 +40,4 @@ This project is an employee management API for DreamFactory company.
 - Run test coverage with: `coverage run manage.py test -v 2 && coverage report`
 
 ## Coverage report
-![image](https://user-images.githubusercontent.com/86853554/176090128-f4edc3a4-2480-4598-a1ce-a9d878c283b7.png)
+![image](https://user-images.githubusercontent.com/86853554/179031978-d1222f5a-ad2d-4e3e-834f-14b28235b94d.png)
