@@ -12,7 +12,7 @@ class EmployeeListTest(DefaultTestClass):
     serializer_class = user_serializers.UserSerializer
 
     def setUp(self):
-        user_1 = self.create_user({
+        self.create_user({
             'rut': '111111111',
             'email': 'employee_1@domain.com',
             'name': 'employee_name_1',
@@ -23,7 +23,7 @@ class EmployeeListTest(DefaultTestClass):
             'password': 'employee_password_1'
         })
 
-        user_2 = self.create_user({
+        self.create_user({
             'rut': '222222222',
             'email': 'employee_2@domain.com',
             'name': 'employee_name_2',
