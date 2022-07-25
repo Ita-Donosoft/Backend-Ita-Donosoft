@@ -83,3 +83,21 @@ class LoginTests(DefaultTestClass):
             'errors': {
                 'non_field_errors': ['Unable to log in with provided credentials.']
             }})
+
+    def test_login_change_token(self):
+        client = APIClient()
+        client.post('/api/auth/login', {
+            'username': 'user@domain.com',
+            'password': 'user_1_password',
+        }, format='json')
+        user_model = User.objects.get(rut='111111111')
+        token_1 = Token.objects.get(user=user_model)
+
+        client.post('/api/auth/login', {
+            'username': 'user@domain.com',
+            'password': 'user_1_password',
+        }, format='json')
+
+        token_2 = Token.objects.get(user=user_model)
+
+        self.assertFalse(token_1.key == token_2.key)
